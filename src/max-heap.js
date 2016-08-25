@@ -23,14 +23,9 @@ class MaxHeap {
 		
   		 
   		
-  			var a = {};
-			a.data = this.root.data ;
-			a.priority = this.root.priority; 
-			a.left = this.root.left;
-			a.right = this.root.right;
-			a.parent = this.root.parent;
+  			var a = {}
 			
-  		this.detachRoot();
+  		 a = this.detachRoot();
 			 
 		this.restoreRootFromLastInsertedNode(a);
 
@@ -43,84 +38,66 @@ class MaxHeap {
 	}
 
 	detachRoot() {
-		var a = this.root;
+	
+	var shifted = this.arrayNodes.shift();
+	this.root = null;
+	
+	return shifted;
 
-		
-
-			if(this.root.left && this.root.right){
-			if (this.root.right.priority > this.root.left.priority){
-				this.root = this.root.right;
-			}
-			else {
-				this.root = this.root.left;
-			}
-		}
-
-			else if(this.root.right === null && this.root.left !== null){
-			this.root = this.root.left;
-		}
-			else if(this.root.left === null && this.root.right !== null){
-			this.root= this.root.right;
-		}
-		else if( this.root.left === null && this.root.right === null){
-			this.root = null;
-		}
-
-		this.arrayNodes.shift();
-		return a;
-		
 	}
 
 	restoreRootFromLastInsertedNode(detached) {
+		if ( detached.right === null && detached.left === null){
+			this.root = detached;
+			this.arrayNodes[0] = detached;
+		}
 
-if(this.root === null){
-		
-
-			
-			this.root = {};
-			this.root.data = detached.data;
-			this.root.priority = detached.priority;
-			this.root.left = detached.left;
-			this.root.right = detached.right;
-			this.root.parent = detached.parent;
-			
-		} 
 
 		else{
-		this.root = this.parentNodes[this.parentNodes.length - 1];		
+			this.arrayNodes.unshift(this.arrayNodes[this.arrayNodes.length - 1]);
+			this.arrayNodes.pop();
+		this.root = this.arrayNodes[0];	
+
+		if(this.arrayNodes.length ===2){
+			this.root.left = detached.left;
+			this.root.left.parent = this.arrayNodes[0];
+			this.parentNodes[0] = this.root;
+			this.parentNodes[1] = this.root.left;
+			
+		}
+else{
 		  if(detached.right !== null ){
 			this.root.right = detached.right;
-			this.root.right.parent = this.parentNodes[this.parentNodes.length - 1];
+	//		detached.right.parent = this.arrayNodes[0];
 		}
 
 		 if(detached.left !== null ){
 			this.root.left = detached.left;
-			this.root.left.parent = this.parentNodes[this.parentNodes.length - 1];
+		//	this.root.left.parent = this.arrayNodes[0];
 		};
+}
+		 
 		
-		if (this.parentNodes.length = 2){
-			this.parentNodes[0] = this.root;
-			this.parentNodes[1] = this.root.left;
-		}
-		};
-
-this.arrayNodes.unshift(this.arrayNodes[this.arrayNodes.length -1]);
-this.arrayNodes.pop();
-		}
-
+}
+//this.arrayNodes.unshift(this.arrayNodes[this.arrayNodes.length -1]);
+//this.arrayNodes.pop();
+		
+}
 	
 
 	size() {
-		
+		return this.arrayNodes.length;
 	}
 
 	isEmpty() {
-		
+		if (this.arrayNodes.length === 0) return true;
+		else return false;
 	}
 
 	clear() {
 		this.root = null;
 		this.parentNodes = [];
+		this.arrayNodes = [];
 	}
 
 	insertNode(node) {
@@ -227,4 +204,3 @@ this.arrayNodes.pop();
 }
 
 module.exports = MaxHeap;
-
