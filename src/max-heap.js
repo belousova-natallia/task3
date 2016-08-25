@@ -19,10 +19,6 @@ class MaxHeap {
 
 		
 		if( this.root === null){ return}
-
-		
-  		 
-  		
   			var a = {}
 			
   		 a = this.detachRoot();
@@ -39,23 +35,20 @@ class MaxHeap {
 
 	detachRoot() {
 	
-	var shifted = this.arrayNodes.shift();
+	var removed = this.arrayNodes.shift();
 	this.root = null;
-	
-	return shifted;
-
+	return removed;
 	}
 
 	restoreRootFromLastInsertedNode(detached) {
 		if ( detached.right === null && detached.left === null){
 			this.root = detached;
-			this.arrayNodes[0] = detached;
+			this.arrayNodes.splice(0, 0, detached);
 		}
 
-
 		else{
-			this.arrayNodes.unshift(this.arrayNodes[this.arrayNodes.length - 1]);
-			this.arrayNodes.pop();
+			this.arrayNodes.splice(0, 0, this.arrayNodes[this.arrayNodes.length - 1]);
+			this.arrayNodes.splice(-1, 1);
 		this.root = this.arrayNodes[0];	
 
 		if(this.arrayNodes.length ===2){
@@ -135,7 +128,7 @@ else{
 	}
 
 	shiftNodeUp(node) {
-
+		
 	if (node.parent !== null){	
              let reference = node.parent;
 
@@ -151,23 +144,12 @@ else{
 
 				node.swapWithParent();
 				
-				
-
-
-				
-					
-
 				reference = reference.parent;
 }
 }
 
 }	
 		
-
-
-
-
-
 	shiftNodeDown(node) {
 
 		if((node.priority < node.left.priority)&& (node.priority < node.left.left.priority)){
@@ -198,9 +180,6 @@ else{
 			
 			}
 			
-
-		
-	
 }
 
 module.exports = MaxHeap;
