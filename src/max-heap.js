@@ -12,18 +12,23 @@ class MaxHeap {
 		let newNode = new Node(data, priority);
 		this.insertNode(newNode);
 		this.shiftNodeUp(newNode);
-
-	}
+		
+}
 
 	pop() {
 
 		
 		if( this.root === null){ return}
 
-		
-  		 
-  		
-  			var a = {}
+		function SortByPriority(a, b){
+	if(a.priority < b.priority) return 1;
+	else return -1;
+}
+if (this.arrayNodes.length > 1){
+ this.arrayNodes.sort(SortByPriority);
+
+	}
+  		 var a = {}
 			
   		 a = this.detachRoot();
 			 
@@ -34,13 +39,13 @@ class MaxHeap {
 		this.shiftNodeDown(this.root);
 		}	
 
-		//return this.arrayNodes[0].data;
+		return a.data;
 	}
 
 	detachRoot() {
 	this.root = null;
+
 	var removed = this.arrayNodes.splice(0,1);
-	
 	
 	return removed[0];
 
@@ -152,7 +157,9 @@ class MaxHeap {
 
 				node.swapWithParent();
 				
-				
+				if(node.right !== null && node.right.parent === node) {
+						 this.root = node;
+				}
 
 
 				
@@ -206,4 +213,3 @@ class MaxHeap {
 }
 
 module.exports = MaxHeap;
-
