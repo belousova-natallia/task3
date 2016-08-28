@@ -54,7 +54,7 @@ if (this.arrayNodes.length > 1){
 	restoreRootFromLastInsertedNode(detached) {
 		if ( detached.right === null && detached.left === null){
 			this.root = detached;
-			//this.arrayNodes.splice(0, 0, detached);
+			
 		}
 
 
@@ -70,26 +70,9 @@ if (this.arrayNodes.length > 1){
 			this.parentNodes[1] = this.root.left;
 			
 		}
-/*else{
-		  if(detached.right !== null ){
-			this.root.right = detached.right;
-	//		detached.right.parent = this.arrayNodes[0];
-		}  
 
-		 if(detached.left !== null ){
-			this.root.left = detached.left;
-		//	this.root.left.parent = this.arrayNodes[0];
-		};
-		*/
+}		
 }
-		 
-		
-}
-//this.arrayNodes.unshift(this.arrayNodes[this.arrayNodes.length -1]);
-//this.arrayNodes.pop();
-		
-
-	
 
 	size() {
 		return this.arrayNodes.length;
@@ -142,10 +125,10 @@ if (this.arrayNodes.length > 1){
 
 	shiftNodeUp(node) {
 		
-	if (node.parent !== null){	
+	if (this.root!== node && node.parent!== null){	
              let reference = node.parent;
 
-			while (node.priority > reference.priority ){
+			if (node.priority > reference.priority ){
 				var indexNode = this.parentNodes.indexOf(node);
 				var indexParent = this.parentNodes.indexOf(node.parent);
 
@@ -161,21 +144,13 @@ if (this.arrayNodes.length > 1){
 						 this.root = node;
 				}
 
-
-				
-					
-
-				reference = reference.parent;
+ }
+return this.shiftNodeUp(node);
 }
-}
+
 
 }	
 		
-
-
-
-
-
 	shiftNodeDown(node) {
 
 
@@ -207,9 +182,6 @@ if (this.arrayNodes.length > 1){
 			
 			}
 			
-
-		
-	
-}
+		}
 
 module.exports = MaxHeap;
