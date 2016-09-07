@@ -191,8 +191,8 @@ return this.shiftNodeUp(node);
 		     (this.root.left.left).swapWithParent();
 			//this.root.left = node.left.left;
 		this.root.left.left = node;
-	this.root = this.root.left;
-			
+	if (this.root.parent){this.root = this.root.parent;
+}			
 return this.shiftNodeDown(node);
 		}
 
