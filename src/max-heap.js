@@ -134,8 +134,8 @@ if (this.arrayNodes.length > 1){
 
 				this.parentNodes[indexNode] = node.parent;
 				this.parentNodes[indexParent] = node;
-				this.arrayNodes[this.arrayNodes.indexOf(node)] = reference;
-				this.arrayNodes[this.arrayNodes.indexOf(reference)] = node;
+				//this.arrayNodes[this.arrayNodes.indexOf(node)] = reference;
+				//this.arrayNodes[this.arrayNodes.indexOf(reference)] = node;
 				this.root = this.arrayNodes[0];
 
 				node.swapWithParent();
@@ -143,13 +143,14 @@ if (this.arrayNodes.length > 1){
 				if(node.right !== null && node.right.parent === node) {
 						 this.root = node;
 				}
-
- }
 return this.shiftNodeUp(node);
+ }
+
 }
-
-
 }	
+
+	
+		
 		
 	shiftNodeDown(node) {
 
@@ -157,31 +158,46 @@ return this.shiftNodeUp(node);
 		if( node.left!==null && node.left.left!==null && (node.priority < node.left.priority)&& (node.priority < node.left.left.priority)){
 			  this.parentNodes[this.parentNodes.indexOf(node.left.left)] = node;
 			  this.parentNodes[this.parentNodes.indexOf(node.left)] = node.left.left;
-			  if(node.left.priority > node.left.left.priority){
-			  this.root.left.left = node;
-			  this.root = node.left;
-}
-
-			}
-		if (node.left !== null) {
-		let leftChild = node.left;
-
-		while((leftChild !== null) && (node.priority < leftChild.priority)){
-			
-					
-				leftChild.swapWithParent();	
-
-				this.arrayNodes[this.arrayNodes.indexOf(node)] = leftChild;
-				this.arrayNodes[this.arrayNodes.indexOf(leftChild)] = node;
-
-			
-				leftChild = leftChild.left;
-			  }
 			  
-			};
-			
+			// this.root.left.left = node;
+		//this.root = node.left;
+
+//}
+
 			}
 			
+	
+
+			if (node.parent === null){
+			this.root = node;
+			this.root.left = node.left;
+			if(node.left && node.priority < node.left.priority){
+
+			(this.root.left).swapWithParent();
+			this.root = node.left;
+			this.root.left = node;
+			node.parent = this.root;
+			
+			return this.shiftNodeDown(node);
+		
+		}
+	}
+
+		if(node.parent !== null&& node.left!== null){
+
+			this.root.left = node;
+		//	this.root.left.left = node.left;
+			if(this.root.left.left && this.root.left.priority < this.root.left.left.priority){
+		     (this.root.left.left).swapWithParent();
+			//this.root.left = node.left.left;
+		this.root.left.left = node;
+	this.root = this.root.left;
+			
+return this.shiftNodeDown(node);
+		}
+
+		}
+		}	
 		}
 
 module.exports = MaxHeap;
